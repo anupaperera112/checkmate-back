@@ -6,9 +6,7 @@ import com.example.to_do.list.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/task")
@@ -30,5 +28,37 @@ public class TaskController {
             );
         }
 
+    }
+
+    @PostMapping(value = "/createTask")
+    public ResponseEntity<StandardResponse> CreateTask(@RequestBody TaskDTO taskDTO){
+        int taskId = taskService.createTask(taskDTO);
+        if (taskId > 0){ // handle the error TODO
+            return new ResponseEntity<>(
+                    new StandardResponse(200,"new task created", taskId),
+                    HttpStatus.CREATED
+            );
+        }else{
+            return new ResponseEntity<>(
+                    new StandardResponse(500,"error while creating a new task", null),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    @DeleteMapping(value = "delete/{taskId}")
+    public ResponseEntity<StandardResponse> deleteTask(@PathVariable("taskId") int taskId){
+        boolean isRemoved = taskService.deleteTask(taskId);
+        if(isRemoved){
+            return new ResponseEntity<>(
+                    new StandardResponse(200,"task id " + taskId + " deleted", null),
+                    HttpStatus.FOUND
+            );
+        }else {
+            return new ResponseEntity<>(
+                    new StandardResponse(500,"error while deleting task", null),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
     }
 }
