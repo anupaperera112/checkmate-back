@@ -13,21 +13,20 @@ import org.springframework.web.bind.annotation.*;
 public class TaskController {
     @Autowired
     private TaskService taskService;
-    @GetMapping
-    public ResponseEntity<StandardResponse> getTaskID(){
-        TaskDTO taskDTO = taskService.getTasks(1);
+    @GetMapping("/getTask/{taskId}")
+   public ResponseEntity<StandardResponse> getTaskByID(@PathVariable("taskId") int taskId){
+        TaskDTO taskDTO = taskService.getTasks(taskId);
         if (taskDTO != null){
             return new ResponseEntity<>(
-                    new StandardResponse(201,"data found", taskDTO),
-                    HttpStatus.FOUND
+                    new StandardResponse(200,"data found", taskDTO),
+                    HttpStatus.OK
             );
         }else{
             return new ResponseEntity<>(
-                    new StandardResponse(500,"no data found", null),
+                    new StandardResponse(404,"no data found", null),
                     HttpStatus.NOT_FOUND
             );
         }
-
     }
 
     @PostMapping(value = "/createTask")
@@ -61,4 +60,26 @@ public class TaskController {
             );
         }
     }
+
+    @PatchMapping(value="/updateTask/{taskId}")
+    public ResponseEntity<StandardResponse> updateTask(@PathVariable("taskId") int taskId, @RequestBody TaskDTO taskDTO){
+        System.out.println(taskDTO.getTaskStatus() + "1");
+        TaskDTO updated_task = taskService.updateTask(taskId,taskDTO);
+        System.out.println(taskDTO.getTaskStatus() +"2");
+
+        if (updated_task != null){
+            return new ResponseEntity<>(
+                    new StandardResponse(200,"successfully updated.",updated_task),
+                    HttpStatus.OK
+            );
+        }else {
+            return new ResponseEntity<>(
+                    new StandardResponse(500,"update unsuccesfull",null),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+
+    }
+
+
 }
