@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `task`
+-- Table structure for table `taskEntity`
 --
 
-DROP TABLE IF EXISTS `task`;
+DROP TABLE IF EXISTS `taskEntity`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `task` (
+CREATE TABLE `taskEntity` (
   `task_id` int NOT NULL,
   `task_title` varchar(45) NOT NULL,
   `task_status` varchar(45) NOT NULL,
@@ -34,12 +34,12 @@ CREATE TABLE `task` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `task`
+-- Dumping data for table `taskEntity`
 --
 
-LOCK TABLES `task` WRITE;
-/*!40000 ALTER TABLE `task` DISABLE KEYS */;
-/*!40000 ALTER TABLE `task` ENABLE KEYS */;
+LOCK TABLES `taskEntity` WRITE;
+/*!40000 ALTER TABLE `taskEntity` DISABLE KEYS */;
+/*!40000 ALTER TABLE `taskEntity` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
