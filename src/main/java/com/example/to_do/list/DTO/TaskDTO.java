@@ -17,6 +17,7 @@ public class TaskDTO {
     private Date taskEndDate;
     private String taskStatus;
 
+
     public static TaskDTO getTaskByID(TaskEntity taskEntity){
         TaskDTO taskDTO = new TaskDTO();
         taskDTO.setTaskTitle(taskEntity.getTaskTitle());

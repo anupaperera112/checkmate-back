@@ -15,7 +15,7 @@ public class TaskController {
     private TaskService taskService;
     @GetMapping
     public ResponseEntity<StandardResponse> getTaskID(){
-        TaskDTO taskDTO = taskService.getTasks(1);
+        TaskDTO taskDTO = taskService.getTasks(9);
         if (taskDTO != null){
             return new ResponseEntity<>(
                     new StandardResponse(201,"data found", taskDTO),
@@ -31,7 +31,7 @@ public class TaskController {
     }
 
     @PostMapping(value = "/createTask")
-    public ResponseEntity<StandardResponse> CreateTask(@RequestBody TaskDTO taskDTO){
+    public ResponseEntity<StandardResponse> createTask(@RequestBody TaskDTO taskDTO){
         int taskId = taskService.createTask(taskDTO);
         if (taskId > 0){ // handle the error TODO
             return new ResponseEntity<>(
