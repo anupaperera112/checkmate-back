@@ -7,4 +7,6 @@ public interface TaskService {
     int createTask(TaskDTO taskDTO);
 
     boolean deleteTask(int taskId);
+
+    TaskDTO updateTask(int taskId, TaskDTO taskDTO);
 }

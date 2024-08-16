@@ -5,19 +5,24 @@ import com.example.to_do.list.entity.TaskEntity;
 import com.example.to_do.list.repository.TaskRepository;
 import com.example.to_do.list.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Field;
 
 
 @Service
 public class TaskServiceIMPL implements TaskService {
     @Autowired
     private TaskRepository taskRepository;
+    private TaskDTO taskDTO ;
 
     @Override
     public TaskDTO getTasks(int taskId) {
         TaskEntity taskEntity = taskRepository.findByTaskId(taskId);
         if (taskEntity != null){
-            TaskDTO taskDTO = TaskDTO.getTaskByID(taskEntity);
+            TaskDTO taskDTO;
+            taskDTO = TaskDTO.getTaskByID(taskEntity);
             return taskDTO;
         }else {
             throw new RuntimeException("no data");
@@ -44,5 +49,36 @@ public class TaskServiceIMPL implements TaskService {
         }else {
             return false;
         }
+    }
+
+    @Override
+    public TaskDTO updateTask(int taskId, TaskDTO taskDTO) {
+        System.out.println(taskId);
+        TaskEntity taskEntity = taskRepository.findByTaskId(taskId);
+        System.out.println(taskEntity.getTaskTitle());
+
+        if(taskEntity!=null){
+            System.out.println(4);
+            if(taskDTO.getTaskTitle() != null){
+                taskEntity.setTaskTitle(taskDTO.getTaskTitle());
+            }
+            System.out.println(5);
+            if(taskDTO.getTaskStatus() != null){
+                taskEntity.setTaskStatus(taskDTO.getTaskStatus());
+            }
+            if(taskDTO.getTaskEndDate() != null){
+                taskEntity.setTaskEndDate(taskDTO.getTaskEndDate());
+            }
+            if(taskDTO.getTaskStartDate() != null){
+                taskEntity.setTaskStartDate(taskDTO.getTaskStartDate());
+            }
+
+            taskRepository.save(taskEntity);
+
+            return  TaskDTO.task(taskEntity);
+        }else {
+            return null;
+        }
+
     }
 }
