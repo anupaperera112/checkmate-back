@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/task")
+@RequestMapping("/task")
 public class TaskController {
     @Autowired
     private TaskService taskService;
@@ -31,6 +31,7 @@ public class TaskController {
 
     @PostMapping(value = "/createTask")
     public ResponseEntity<StandardResponse> CreateTask(@RequestBody TaskDTO taskDTO){
+        System.out.println("Hey");
         int taskId = taskService.createTask(taskDTO);
         if (taskId > 0){ // handle the error TODO
             return new ResponseEntity<>(
