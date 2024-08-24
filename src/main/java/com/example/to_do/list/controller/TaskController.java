@@ -6,16 +6,22 @@ import com.example.to_do.list.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/task")
+@EnableMethodSecurity
 public class TaskController {
     @Autowired
     private TaskService taskService;
+
     @GetMapping("/getTask/{taskId}")
    public ResponseEntity<StandardResponse> getTaskByID(@PathVariable("taskId") int taskId){
+        System.out.println(taskId);
         TaskDTO taskDTO = taskService.getTasks(taskId);
+        System.out.println(taskDTO.getTaskTitle());
         if (taskDTO != null){
             return new ResponseEntity<>(
                     new StandardResponse(200,"data found", taskDTO),
